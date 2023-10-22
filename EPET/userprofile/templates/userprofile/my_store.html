@@ -1,0 +1,70 @@
+{% extends 'core/base.html' %}
+
+{% block title %}My Store{% endblock %}
+
+{% block content %}
+<div class="max-w-screen-lg mx-auto p-6">
+
+    <h1 class="text-3xl font-semibold mb-6">My Store</h1>
+
+    {% if messages %}
+        <div class="mt-4 bg-teal-200 text-teal-800 py-4 px-6 rounded-md">
+            {% for message in messages %}
+                {{ message }}<br>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h2 class="mt-6 text-xl font-semibold">My Orders</h2>
+
+    <div class="grid grid-cols-4 gap-4 mt-4">
+        <div class="font-semibold text-teal-600"><strong>Order ID</strong></div>
+        <div class="font-semibold text-teal-600"><strong>Title</strong></div>
+        <div class="font-semibold text-teal-600"><strong>Quantity</strong></div>
+        <div class="font-semibold text-teal-600"><strong>Price</strong></div>
+        {% for order_item in order_items %}
+        <div class="py-2 px-4">
+            <a href="{% url 'my_store_order_detail' order_item.order.id %}" class="text-teal-600 hover:underline">
+                {{ order_item.order.id }}
+            </a>
+        </div>
+        <div class="py-2 px-1">{{ order_item.product.title }}</div>
+        <div class="py-2 px-6">{{ order_item.quantity }}</div>
+        <div class="py-2 px-1">${{ order_item.get_display_price }}</div>
+        {% endfor %}
+    </div>
+    
+
+    <hr class="my-6">
+
+    <a href="{% url 'add_product' %}" class="inline-block px-8 py-4 bg-teal-500 text-white rounded-md hover:bg-teal-600 focus:outline-none focus:ring focus:ring-teal-300">
+        Add Product
+    </a>
+
+    <h2 class="mt-8 text-xl font-semibold">My Products</h2>
+
+    {% if products %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+            {% for product in products %}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <a href="{% url 'edit_product' product.id %}">
+                        {% if product.image %}
+                            <div class="h-48">
+                                <img src="{{ product.image.url }}" alt="Image of {{ product.title }}" class="object-cover w-full h-full">
+                            </div>
+                        {% endif %}
+                        <div class="p-4">
+                            <h2 class="text-xl font-semibold text-teal-600">{{ product.title }}</h2>
+                            <p class="text-sm text-gray-600">${{ product.get_display_price }}</p>
+                            <hr class="my-3">
+                            <p><strong>Status:</strong> {{ product.get_status_display }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="mt-4 py-4 px-6 bg-gray-200 rounded-md">You don't have any products</p>
+    {% endif %}
+</div>
+{% endblock %}

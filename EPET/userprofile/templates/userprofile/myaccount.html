@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+<div class="max-w-screen-lg mx-auto p-6">
+    <h1 class="text-3xl font-semibold mb-6">My Account</h1>
+
+    <!-- User Information Section -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-xl font-semibold mb-4">User Information</h2>
+        <div class="grid grid-cols-2 gap-4">
+            <div><strong>Username:</strong> {{ user.username }}</div>
+            <div><strong>Email:</strong> {{ user.email }}</div>
+            <div><strong>First Name:</strong> {{ user.first_name }}</div>
+            <div><strong>Last Name:</strong> {{ user.last_name }}</div>
+        </div>
+    </div>
+
+    <!-- Order History Section -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">Order History</h2>
+        {% if orders %}
+        <table class="w-full border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="py-2 px-4">Order ID</th>
+                    <th class="py-2 px-4">Total Cost</th>
+                    <th class="py-2 px-4">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td class="py-2 px-4">
+                        <a href="{% url 'order_detail' order.id %}" class="text-teal-600 hover:underline">{{ order.id }}</a>
+                    </td>
+                    <td class="py-2 px-4">${{ order.get_total_cost }}</td>
+                    <td class="py-2 px-4">{{ order.created_at|date:"F j, Y" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="mt-4 py-4 px-6 bg-gray-200 rounded-md">You don't have any orders yet.</p>
+        {% endif %}
+    </div>
+
+    <a href="{% url 'logout' %}"  class="  rounded-md hover:bg-red-700 mt-6 inline-block py-4 px-8 bg-red-400 text-white">Log Out</a>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-screen-md mx-auto p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-3xl font-semibold mb-6 text-teal-600">{{ title }}</h1>
+
+    <form method="post" action="." enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+
+        <div class="w-full">
+            {{ form.category.label_tag }}
+            {{ form.category }}
+        </div>
+
+        <div class="w-full">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+        </div>
+
+        <div class="w-full">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+        </div>
+
+        <div class="w-full">
+            {{ form.price.label_tag }}
+            {{ form.price }}
+        </div>
+
+        <div class="w-full">
+            {{ form.image.label_tag }}
+            {{ form.image }}
+        </div>
+
+        <button class="w-full py-3 px-4 bg-teal-500 text-white rounded-full hover:bg-teal-800 focus:outline-none focus:ring focus:ring-teal-200">
+            Submit
+        </button>
+    </form>
+
+    {% if product %}
+    <a href="{% url 'delete_product' product.id %}" class="mt-4 inline-block py-3 px-4 bg-red-500 text-white rounded-full hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-200">
+        Delete
+    </a>
+    {% endif %}
+</div>
+{% endblock %}

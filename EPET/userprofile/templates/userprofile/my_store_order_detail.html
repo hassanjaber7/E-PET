@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Order Detail - {{ order.id }}{% endblock %}
+
+{% block content %}
+<div class="max-w-screen-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-3xl font-semibold mb-6">Order Detail - {{ order.id }}</h1>
+
+    {% for item in order.items.all %}
+    {% if item.product.user == request.user %}
+    <div class="mb-6">
+        <h2 class="text-xl font-semibold">Product Details</h2>
+
+        <div class="grid grid-cols-3 gap-4 text-center font-semibold">
+            <div>Title</div>
+            <div>Quantity</div>
+            <div>Price</div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 text-center">
+            <div>{{ item.product.title }}</div>
+            <div>{{ item.quantity }}</div>
+            <div>${{ item.get_display_price }}</div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="mb-6">
+        <h2 class="text-xl font-semibold">Customer Information for This Order</h2>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div><strong>First Name:</strong> {{ order.first_name }}</div>
+            <div><strong>Last Name:</strong> {{ order.last_name }}</div>
+            <div><strong>Address:</strong> {{ order.address }}</div>
+            <div><strong>Zip Code:</strong> {{ order.zipcode }}</div>
+            <div><strong>City:</strong> {{ order.city }}</div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

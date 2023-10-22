@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div class="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
+      <h1 class="text-3xl font-semibold mb-6">Login</h1>
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
+        
+        <div class="mb-4">
+            <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700">Username</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <ul class="errorlist">
+                    {% for error in form.username.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <div class="mb-4">
+            <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-700">Password</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+                <ul class="errorlist">
+                    {% for error in form.password.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <button class="block w-full py-2 px-4 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring focus:ring-teal-300">
+          Login
+        </button>
+      </form>
+      <div class="mt-4 text-center">
+        <h2 class="text-gray-600">Don't have an account? <a href="{% url 'signup' %}" class="text-teal-600">Signup</a></h2>
+        <a href="{% url 'password_reset' %}" class="text-teal-600">Forgot Password?</a>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    form input {
+        border: 1px solid #ccc; /* Add your desired border styles here */
+        border-radius: 4px;
+        padding: 10px;
+        width: 100%;
+    }
+  </style>
+  
+{% endblock %}

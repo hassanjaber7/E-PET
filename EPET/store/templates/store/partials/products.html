@@ -1,0 +1,16 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    {% for product in products %}
+      <div class="product bg-white rounded-lg overflow-hidden shadow-md">
+        <a href="{% url 'product_detail' product.category.slug product.slug %}">
+          <div class="relative h-48">
+            <img src="{{ product.get_thumbnail }}" alt="Image of {{ product.title }}" class="object-cover w-full h-full">
+          </div>
+          <div class="p-4">
+            <h2 class="text-xl font-semibold text-teal-700">{{ product.title }}</h2>
+            <p class="text-sm text-gray-600 mt-2">${{ product.get_display_price }}</p>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+  
