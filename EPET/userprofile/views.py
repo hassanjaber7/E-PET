@@ -96,8 +96,12 @@ def signup(request):
             login(request, user)
             userprofile = Userprofile.objects.create(user=user)
             inactive_user = send_verification_email(request, form)
-            return redirect('frontpage')
+            return redirect('verification')
     else:
         form = CustomSignupForm()
 
     return render(request, 'userprofile/signup.html', {'form': form})
+
+
+def verification(request):
+    return render(request, 'userprofile/verification.html')
